@@ -1,55 +1,11 @@
-Date: 2 July (Day 20)
 
-Subject: End-to-End Workflow Testing and Comprehensive System Validation
+Day 20: End-to-End Workflow Testing (2 July)
 
-═══════════════════════════════════════════════════════════════════════════════
+I. Individual Leave Workflow Tests
 
-I. INDIVIDUAL LEAVE REQUEST COMPLETE LIFECYCLE TESTING
+Today I ran full end-to-end tests on the Individual Leave request process. I checked every stage: submitting the form (with both valid and invalid data), making sure the right status is set, and confirming the request is saved in the database. I tested mentor and HOD approvals, rejections, and all the notifications sent at each step. I also verified that only the right users can see or act on requests, and that the audit trail and data integrity are maintained throughout. Both success and rejection paths work as expected.
 
-Comprehensive end-to-end testing of the Individual Leave request workflow was executed, systematically validating all stages from initial submission through final approval and notification generation.
-
-The Individual Leave lifecycle testing encompasses the following test scenarios:
-
-   • Request Submission Phase Testing:
-     - Form Submission: Valid form submission with complete required data (dates, reason, etc.)
-     - Validation Testing: Verification of form validation for invalid inputs (dates in wrong order, missing reason, etc.)
-     - Initial Status Assignment: Confirmation that newly submitted requests assigned PENDING_MENTOR status
-     - Database Recording: Verification that request records properly created in database with all submitted information
-     - Submission Confirmation: Confirmation receipt provided to requesting student with request identifier
-   
-   • Mentor Approval Phase Testing:
-     - Request Visibility: Confirmation that mentors see only leave requests from their assigned students
-     - Request Detail Display: Verification that complete request information displayed to mentor
-     - Approval Action: Testing mentor approval action with optional comments
-     - Status Update: Confirmation that request status transitions to MENTOR_APPROVED upon mentor action
-     - Rejection Testing: Testing mentor rejection with required reason capture
-     - Status Update on Rejection: Confirmation that request status transitions to REJECTED state
-   
-   • HOD Approval Phase Testing:
-     - Request Visibility: Confirmation that HODs see only requests from their department
-     - Status Filtering: Verification that HODs see only requests in PENDING_HOD status
-     - Request Review: Testing HOD review and evaluation of mentor-approved requests
-     - Final Approval: Testing HOD approval transitioning request to HOD_APPROVED final status
-     - Rejection Authority: Testing HOD rejection capability returning request to student
-     - Comment Capture: Verification of HOD comments and decision rationale capture
-   
-   • Notification Generation Phase Testing:
-     - Submission Notification: Verification that confirmation email sent to student upon submission
-     - Mentor Notification: Verification that pending request notification sent to assigned mentor
-     - Mentor Decision Notification: Verification that approval/rejection notification sent to student
-     - HOD Notification: Verification that escalated request notification sent to HOD
-     - HOD Decision Notification: Verification that final decision notification sent to student
-     - Email Content Validation: Verification that email content contains complete and accurate information
-   
-   • Complete Workflow Validation:
-     - End-to-End Success Path: Complete successful workflow from submission through HOD approval
-     - End-to-End Rejection Path: Complete rejection path testing at both Mentor and HOD levels
-     - Workflow State Consistency: Verification that system state consistent throughout workflow
-     - Data Integrity: Confirmation that all submitted and processed data maintained integrity
-     - Audit Trail: Verification that complete audit trail recorded for all workflow events
-
-This comprehensive Individual Leave testing validates complete workflow functionality across all workflow stages.
-
+This comprehensive Individual Leave testing validates complete workflow functionality across all workflow stages
 
 II. GROUP AND DUTY LEAVE WORKFLOW SEGREGATION AND AUTO-APPROVAL TESTING
 

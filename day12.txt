@@ -1,52 +1,13 @@
-Date: 20 June (Day 12)
 
-Subject: Individual Leave Module Templates and User Interface Implementation
+Day 12: Leave Request UI and Dashboard (20 June)
 
-═══════════════════════════════════════════════════════════════════════════════
+I. Leave Request Submission Template
 
-I. LEAVE REQUEST SUBMISSION TEMPLATE IMPLEMENTATION
+Today I built the HTML templates for the leave request form. I used Django’s form rendering to display all the fields, added labels, help text, and CSRF protection. For dates, I integrated a JavaScript date picker so students can easily select start and end dates. The reason field is a multi-line text area with a character counter and real-time validation. There are clear submit and cancel buttons, plus links for help if needed. The goal was to make the form simple and user-friendly.
 
-The development of user-facing templates for the individual leave request submission interface proceeded with comprehensive implementation of HTML templates designed to present the IndividualLeaveForm to student users in an intuitive and accessible manner.
+II. Leave Request Tracking Dashboard
 
-The leave submission template implementation encompasses the following components:
-
-   • Form Rendering: The template renders the IndividualLeaveForm fields using Django template form rendering capabilities including:
-     - Automatic field generation with appropriate HTML input types
-     - Label association with form fields for accessibility
-     - Help text and placeholder displays providing user guidance
-     - CSRF token inclusion for security compliance
-   
-   • Date Picker Components: Interactive date selection components were integrated including:
-     - JavaScript-based date picker widgets enabling intuitive date selection
-     - Date format specification ensuring consistent user input
-     - Calendar visualization for date range selection
-     - Validation feedback for date selection constraints
-   
-   • Reason Text Area: A comprehensive text input component for leave reason documentation including:
-     - Multi-line text area for detailed reason specification
-     - Character count display showing input length
-     - Placeholder text guiding users on expected content
-     - Real-time validation feedback
-   
-   • Submission Controls: Interface elements facilitating form submission and cancellation including:
-     - Submit button for form submission
-     - Cancel button for user cancellation
-     - Help and support links for user assistance
-
-This comprehensive submission template provides an intuitive interface for student leave request submission.
-
-
-II. LEAVE REQUEST TRACKING AND STATUS DASHBOARD
-
-The implementation of leave request tracking and display templates proceeded with development of student-focused dashboard interfaces enabling users to view their leave request submissions and track approval status.
-
-The tracking dashboard implementation encompasses the following components:
-
-   • Request List Display: A tabular display listing all leave requests submitted by the authenticated student including:
-     - Leave request identifiers and submission dates
-     - Leave date ranges and calculated duration
-     - Current workflow status indicators
-     - Request action links (view details, modify pending requests, cancel if applicable)
+I also created a dashboard where students can see all their leave requests. It shows each request in a table with the dates, duration, current status, and actions like view, edit (if pending), or cancel. This makes it easy for users to keep track of their requests and know what’s happening at each stage.
    
    • Status Indicators: Visual status indicators providing clear workflow status communication:
      - PENDING_MENTOR: Yellow/amber status indicating awaiting Mentor review

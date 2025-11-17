@@ -1,51 +1,15 @@
-Date: 9 June (Day 3)
 
-Subject: Organizational Directory Structure Implementation and ObjectClass Configuration
+Day 3: Organizing the Directory and User Schema (9 June)
 
-═══════════════════════════════════════════════════════════════════════════════
+I. Comparing LDAP Management Tools
 
-I. COMPARATIVE ANALYSIS OF DIRECTORY MANAGEMENT TOOLS
+Today I compared phpLDAPadmin and LAM (LDAP Account Manager) to see which is better for daily LDAP management. LAM’s form-based interface is much easier for regular tasks like adding or editing users, while phpLDAPadmin is more detailed but can be confusing for quick changes. I decided LAM is better for most day-to-day work, but phpLDAPadmin is still useful for advanced tweaks.
 
-In pursuit of identifying the most effective administrative interface for ongoing directory management operations, the LDAP Account Manager (LAM) tool was procured and installed alongside the previously deployed phpLDAPadmin system. A comprehensive comparative analysis was conducted between these two management platforms, evaluating their respective user interfaces, user experience design, and functional capabilities.
+II. Setting Up Organizational Units (OUs)
 
-The evaluation demonstrated that LAM provides a superior form-based interface architecture that significantly enhances operational efficiency for routine administrative tasks. The structured form-based approach offers improved usability for account creation, modification, and deletion operations compared to the hierarchical tree-based navigation structure of phpLDAPadmin. This comparative assessment informed the decision to utilize LAM as the primary administrative interface for directory management operations, while retaining phpLDAPadmin as a secondary tool for advanced configuration and schema management requirements.
+I created two main OUs under the base DN (dc=college,dc=edu): one for users (ou=Users) and one for groups (ou=Groups). This helps keep things organized and makes it easier to manage permissions and group policies later on.
 
+III. Choosing ObjectClasses for Users
 
-II. ORGANIZATIONAL UNIT HIERARCHY ESTABLISHMENT
-
-The implementation of a logically organized directory structure commenced with the creation of foundational Organizational Unit (OU) entries within the LDAP namespace. These organizational containers were created hierarchically beneath the established base DN (dc=college,dc=edu) to provide semantic organization and administrative segmentation of directory resources.
-
-The following Organizational Units were created and configured:
-   • ou=Users,dc=college,dc=edu: Designated as the primary container for user account entries and personal directory records
-   • ou=Groups,dc=college,dc=edu: Designated as the primary container for group entries and group-based access control structures
-
-This two-tier organizational hierarchy establishes clear logical boundaries for resource management and facilitates granular access control policies and administrative delegation of authority within the directory infrastructure.
-
-
-III. OBJECTCLASS SCHEMA DEFINITION AND STANDARDIZATION
-
-The standardization of user entry structure was accomplished through the formal definition and specification of mandatory objectClass assignments for all future user entries created within the directory service. This schema utilization ensures consistency, data integrity, and compliance with organizational standards across all user records.
-
-The following objectClasses were designated as mandatory for user entries:
-
-   • inetOrgPerson: This objectClass provides a comprehensive collection of standard organizational person attributes, including:
-     - Common name (cn)
-     - Surname (sn)
-     - Given name (givenName)
-     - Electronic mail address (mail)
-     - Telephone number (telephoneNumber)
-     - Organizational affiliation attributes
-     
-   • posixAccount: This objectClass enables integration with Unix/Linux system authentication and provides essential system-level attributes including:
-     - User identifier (uidNumber)
-     - Group identifier (gidNumber)
-     - Home directory path (homeDirectory)
-     - User shell specification (loginShell)
-     - Login name and authentication fields
-
-The combination of these objectClasses establishes a comprehensive user profile structure that satisfies both organizational directory requirements and Unix/Linux system authentication necessities, enabling seamless integration with institutional authentication infrastructure.
-
-═══════════════════════════════════════════════════════════════════════════════
-
-Status: Successfully completed organizational structure implementation and schema standardization for Day 3.
+For user entries, I set inetOrgPerson (for basic user info like name and email) and posixAccount (for Unix system integration) as required objectClasses. This way, every user has the right attributes for both directory and system logins. It keeps the directory consistent and ready for future integration with Linux systems.
 

@@ -1,53 +1,17 @@
-Date: 10 June (Day 4)
 
-Subject: Sample User Provisioning and Directory Verification Procedures
+Day 4: Creating Sample Users and Verifying Setup (10 June)
 
-═══════════════════════════════════════════════════════════════════════════════
+I. Adding Test Users
 
-I. SAMPLE USER ACCOUNT CREATION AND INITIALIZATION
+Today I created three sample users: admin (for system management), teacher (for faculty tasks), and student (for regular users). I made sure to use strong passwords for each account, following good security practices like using a mix of characters and hashing the passwords.
 
-The commencement of user provisioning operations proceeded with the creation of foundational sample user accounts to serve as representative entries for system testing and validation purposes. Three distinct user roles were created to encompass the primary organizational user categories:
+II. Setting Unix Attributes
 
-   • admin: Administrative user account designated for system management and configuration tasks
-   • teacher: Educational personnel user account representing faculty and instructional staff roles
-   • student: Student user account representing learner and student body roles
+For each user, I manually set the Unix attributes: a unique uidNumber and a shared gidNumber for group membership. This is important for making sure the users can be recognized by Unix/Linux systems later, and helps with things like file permissions and group access.
 
-During the account creation process for each user identity, robust password policies were rigorously applied to ensure compliance with organizational security standards and best practices. The password generation and application procedures incorporated the following security considerations:
-   - Minimum password length requirements
-   - Complexity requirements including alphanumeric and special character combinations
-   - Cryptographically secure hashing algorithms for password storage
-   - Enforcement of password strength validation rules
+III. Checking Everything with ldapsearch
 
-This approach established a secure foundation for subsequent user provisioning operations and validated the password management capabilities of the directory infrastructure.
-
-
-II. UNIX SYSTEM ATTRIBUTE ASSIGNMENT AND CONFIGURATION
-
-Following the successful creation of sample user accounts, comprehensive Unix/Linux system integration was accomplished through the systematic assignment of essential POSIX (Portable Operating System Interface) attributes to each user entry. These attributes are fundamental for enabling seamless integration between the LDAP directory service and Unix-based system authentication mechanisms.
-
-The following Unix attributes were manually assigned to all sample user entries:
-
-   • Unique User Identifier (uidNumber): A distinct numerical identifier assigned to each user account. This attribute ensures that each user maintains a unique identity within Unix/Linux systems and facilitates proper file ownership, process attribution, and resource allocation. The values were carefully selected to avoid conflicts with system-reserved identifiers and existing user accounts.
-   
-   • Group Identifier (gidNumber): A shared numerical group identifier assigned to establish group membership and collective resource access permissions. The strategic assignment of shared gidNumber values enables the implementation of group-based access control policies and facilitates collaborative work environments where multiple users require unified access to shared resources.
-
-This comprehensive attribute assignment ensures full compatibility with Unix/Linux system authentication frameworks and enables the utilization of LDAP credentials for system-level access, file permissions, and privilege management across the institutional computing infrastructure.
-
-
-III. COMMAND-LINE VERIFICATION AND STRUCTURAL VALIDATION
-
-To ensure the architectural integrity and attribute accuracy of all newly provisioned user entries, comprehensive verification procedures were executed utilizing the ldapsearch command-line utility. This diagnostic tool provides low-level access to the LDAP directory service and enables detailed inspection of directory entries and their structural composition.
-
-The verification methodology employed various search filters and query scopes to validate multiple dimensions of the user entries:
-
-   • Structural Verification: Confirmation that all user entries were created within the correct organizational unit (ou=Users,dc=college,dc=edu) and possessed the appropriate DN hierarchy structure.
-   
-   • ObjectClass Validation: Verification that all user entries possessed the mandatory objectClasses (inetOrgPerson and posixAccount) and contained no structural anomalies.
-   
-   • Attribute Completeness: Confirmation that all required attributes were present and populated with valid data, including:
-     - Personal identifiers (cn, sn, givenName)
-     - Unix system attributes (uidNumber, gidNumber, homeDirectory, loginShell)
-     - Authentication attributes (userPassword)
+To double-check my work, I used the ldapsearch command-line tool to look up the new users. I checked that each user was in the right OU (ou=Users), had the correct objectClasses (inetOrgPerson and posixAccount), and all the required fields (like cn, sn, uidNumber, etc.) were filled in. Everything looked good, so the setup is ready for more users and integration.
      - Organizational attributes (mail, telephoneNumber)
    
    • Uniqueness Validation: Verification that all unique identifiers (uidNumber, cn) were distinct across all user entries and that no duplicate values existed.

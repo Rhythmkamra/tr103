@@ -1,52 +1,17 @@
-Date: 17 June (Day 9)
 
-Subject: Learning Management System Database Schema Design and Data Model Architecture
+Day 9: Designing the LMS Database Models (17 June)
 
-═══════════════════════════════════════════════════════════════════════════════
+I. Core Models for Users and Groups
 
-I. CORE IDENTITY DATA MODEL DEFINITION AND IMPLEMENTATION
+Today I started designing the main database models for our LMS. I created models for Student (linked one-to-one with Django’s User), Teacher (also linked to User, with extra fields for Mentor/HOD roles), and Society (for clubs and group leave features). This structure will help us manage users, roles, and group activities more easily.
 
-The development of the Learning Management System (LMS) data architecture commenced with the comprehensive design and implementation of foundational user identity models. These core identity models establish the organizational structure and relational framework upon which all subsequent LMS functionality depends.
+II. Individual Leave Model
 
-The core identity model architecture encompasses the following entity definitions:
+I designed the IndividualLeave model to track student leave requests. Each leave links to a student, has a reason field, start and end dates, and a status field to show where it is in the approval process (like PENDING_MENTOR, APPROVED, etc.). This should make it easy to follow each request through its workflow and keep a record for audits.
 
-   • Student Model: A primary entity model representing enrolled student users within the Learning Management System. The Student model is implemented with the following characteristics:
-     - Direct linkage to the Django User model, establishing a one-to-one relationship between Django authentication entities and LMS student records
-     - Storage of student-specific attributes and organizational affiliations
-     - Integration with leave request workflows and educational tracking systems
-     - Connection to institutional student records and academic progression
-   
-   • Teacher Model: A primary entity model representing instructional and faculty staff within the Learning Management System. The Teacher model is implemented with the following characteristics:
-     - Direct linkage to the Django User model, establishing a one-to-one relationship between Django authentication entities and LMS teacher records
-     - Inclusion of role designation flags enabling dynamic role classification:
-       * Mentor Flag: Designating teachers responsible for student mentorship and individual leave request approval
-       * Head of Department (HOD) Flag: Designating administrative faculty with departmental oversight and hierarchical approval authority
-     - Support for multi-role assignment enabling teachers to hold both Mentor and HOD designations within different contexts
-   
-   • Society Model: An organizational entity model representing student societies, clubs, or organizational groups within the institutional framework. The Society model is implemented with the following characteristics:
-     - Representation of organizational entities for group-based activities and collective leave management
-     - Storage of society organizational structure and administrative delegation
-     - Association with group leave request workflows and collective activity governance
-     - Integration with society administrator authorization and management capabilities
+III. Group and Duty Leave Models
 
-This comprehensive core identity model architecture establishes the foundational data structures required for user management, role-based access control, and organizational representation within the LMS platform.
-
-
-II. INDIVIDUAL LEAVE REQUEST DATA MODEL DESIGN
-
-The design of the Individual Leave request data model proceeded with comprehensive specification of data fields and attributes necessary for managing individual student leave requests throughout their approval lifecycle.
-
-The Individual Leave model architecture encompasses the following structural specifications:
-
-   • Student Reference: A foreign key field establishing a direct relationship between individual leave requests and specific student entities. This relationship enables:
-     - Association of leave requests with particular student records
-     - Tracking of leave history by individual students
-     - Integration with student academic records and attendance systems
-   
-   • Leave Reason Field: A text field designated for capturing the rationale, justification, or documented reason for the requested leave. This field enables:
-     - Clear communication of leave purposes to approval authorities
-     - Documentation of leave request circumstances and context
-     - Audit trail and record-keeping for leave administration
+I also set up models for GroupLeave and DutyLeave. GroupLeave is for society or event-based requests with multiple participants, and DutyLeave is for official duties like exams or sports. Each model supports different approval paths (e.g., Society Admin for group, Teacher→HOD for duty). This way, the system can handle both individual and group leave scenarios.
    
    • Date Specification Fields: Dedicated date fields capturing temporal parameters of the leave request:
      - Leave Commencement Date: Specifying the date on which the requested leave begins

@@ -1,23 +1,14 @@
-Week 1 – Day 1: LDAP Fundamentals and Tool Analysis (5 June)
 
-I. Core LDAP Architecture Study
+Day 1: LDAP Basics and Tool Comparison (5 June)
 
-Protocol Fundamentals: Studied the Lightweight Directory Access Protocol (LDAP) as a read-optimized, hierarchical directory service protocol.
+I. Understanding LDAP Structure
 
-Directory Information Tree (DIT): Defined the DIT structure, recognizing it as the inverted tree hierarchy organizing all directory entries.
+Today I started with the basics of LDAP. I learned that LDAP is a protocol mainly used for reading and searching directory data, and it organizes everything in a tree-like structure called the Directory Information Tree (DIT). Each entry in this tree has a unique Distinguished Name (DN), which acts like its full address. Organizational Units (OUs) are used to group users and resources logically, making it easier to manage large numbers of entries.
 
-Naming and Locators: Identified the Distinguished Name (DN) as the absolute, unique identifier for every entry within the DIT.
+II. Why LDAP for College Systems?
 
-Structural Components: Established the function of the Organizational Unit (OU) as the container object used for logical segmentation and grouping of users and resources.
+I looked into why LDAP is useful in a college setting. The main reason is to have a single place for managing all user accounts, so students and staff can use one login for different services like Wi-Fi, email, and portals. This makes things simpler for both users and admins, especially when someone joins or leaves the college.
 
-II. Application Rationale
+III. Tools for Managing LDAP
 
-Unified Identity Management: Analyzed the strategic requirement for LDAP integration in a college environment to facilitate unified login and centralized user identity management.
-
-Service Consolidation: Understood that centralizing credentials simplifies access control and user lifecycle management across multiple campus systems (e.g., Wi-Fi, portals, email).
-
-III. Management Tool Analysis
-
-phpLDAPadmin: Reviewed as a low-level web interface providing direct, unabstracted access to LDAP attributes and schema manipulation; suitable for experienced administrators.
-
-LAM (LDAP Account Manager): Reviewed as an abstraction-layer management tool focused on user-friendly, form-based account provisioning, simplifying routine tasks for support staff.
+I tried out two tools: phpLDAPadmin and LAM (LDAP Account Manager). phpLDAPadmin gives you a lot of control and lets you see and edit everything in the directory, but it can be a bit overwhelming if you’re new. LAM, on the other hand, is more user-friendly and uses forms for common tasks, which is great for everyday management. Both tools have their strengths depending on what you need to do.

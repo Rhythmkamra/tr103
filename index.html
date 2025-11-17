@@ -1,92 +1,224 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>Daily Diary Records</title>
-<style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Diary Viewer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    /* Global Styles */
     body {
-        font-family: "Times New Roman", serif;
-        margin: 40px;
-        line-height: 1.6;
-        background: #fafafa;
+      font-family: 'Roboto', sans-serif;
+      background: #f0f2f5; /* Light, soft background */
+      margin: 0;
+      padding: 40px 20px;
+      color: #333;
+      line-height: 1.6;
     }
+    
+    /* Container Styling */
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px; /* Smoother corners */
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08); /* Modern, lifted shadow */
+    }
+    
     h1 {
-        text-align: center;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        margin-bottom: 40px;
+      text-align: center;
+      margin-bottom: 30px;
+      font-weight: 700;
+      color: #1e3a8a; /* Deep blue header */
+      border-bottom: 2px solid #e0e7ff;
+      padding-bottom: 10px;
     }
-    .entry {
-        background: white;
-        border: 1px solid #ddd;
-        padding: 20px;
-        margin-bottom: 25px;
-        border-radius: 6px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    
+    /* List Item Styling */
+    .day-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 10px;
+      border-bottom: 1px solid #e5e7eb;
+      transition: background-color 0.3s ease;
+      font-size: 1.1rem;
     }
-    .download-btn {
-        margin-top: 10px;
-        padding: 6px 12px;
-        border: 1px solid #333;
-        background: white;
-        cursor: pointer;
+    
+    .day-item:hover {
+      background-color: #f7f9fc; /* Slight highlight on hover */
+    }
+    
+    .day-item:last-child {
+      border-bottom: none;
+    }
+
+    /* Button Styling */
+    button {
+      padding: 10px 18px;
+      border: none;
+      background: #3b82f6; /* Bright, attractive blue */
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: background-color 0.3s ease, transform 0.1s;
+    }
+    
+    button:hover {
+      background: #2563eb;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+    
+    /* --- Modal Styles --- */
+    
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000; /* Higher z-index */
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.5); /* Semi-transparent black overlay */
+      padding-top: 50px;
+      backdrop-filter: blur(3px); /* Subtle blur effect */
+    }
+    
+    .modal-content {
+      background-color: #ffffff;
+      margin: 5% auto;
+      padding: 25px;
+      width: 90%;
+      max-width: 650px;
+      border-radius: 10px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    }
+    
+    .close {
+      color: #9ca3af;
+      float: right;
+      font-size: 32px;
+      font-weight: 300;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+    
+    .close:hover,
+    .close:focus {
+      color: #333;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    
+    #modal-header {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #1e3a8a;
+      border-bottom: 1px solid #e0e7ff;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+    
+    #viewer-content {
+      white-space: pre-wrap;
+      max-height: 450px;
+      overflow-y: auto;
+      padding: 15px;
+      background: #f9fafb; /* Very light background for reading */
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 1rem;
+      color: #4b5563; /* Softer text color for better readability */
+    }
+
+    /* Scrollbar Styling for viewer-content */
+    #viewer-content::-webkit-scrollbar {
+        width: 8px;
+    }
+    #viewer-content::-webkit-scrollbar-thumb {
+        background: #94a3b8;
         border-radius: 4px;
     }
-</style>
+    #viewer-content::-webkit-scrollbar-thumb:hover {
+        background: #64748b;
+    }
+
+  </style>
 </head>
 <body>
+  <div class="container">
+    <h1><span style="margin-right: 10px;">📖</span>Daily Diary Entries</h1>
+    <div id="list"></div>
+  </div>
 
-<h1>GNDEC Training Diary – Daily Records</h1>
+  <div id="diaryModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h2 id="modal-header">Day Entry</h2>
+      <div id="viewer-content"></div>
+    </div>
+  </div>
+  <script>
+    const days = 23;
+    const list = document.getElementById("list");
+    // Get modal elements
+    const diaryModal = document.getElementById("diaryModal");
+    const modalHeader = document.getElementById("modal-header");
+    const viewerContent = document.getElementById("viewer-content");
 
-<div id="content"></div>
+    // Function to populate the list of days
+    for (let i = 1; i <= days; i++) {
+      const div = document.createElement("div");
+      div.className = "day-item";
 
-<script>
-// List all txt files
-const files = [
-    "day1.txt","day2.txt","day3.txt","day4.txt","day5.txt",
-    "day6.txt","day7.txt","day8.txt","day9.txt","day10.txt",
-    "day11.txt","day12.txt","day13.txt","day14.txt","day15.txt",
-    "day16.txt","day17.txt","day18.txt","day19.txt","day20.txt",
-    "day21.txt","day22.txt","day23.txt"
-];
+      div.innerHTML = `
+        <span>Day ${i}</span>
+        <button onclick="loadDay(${i})">View Entry</button>
+      `;
 
-// Fetch each file
-files.forEach(file => {
-    fetch(file)
-        .then(res => res.text())
-        .then(text => {
-            addEntry(file, text);
+      list.appendChild(div);
+    }
+
+    // Function to load the day's content and open the modal
+    function loadDay(num) {
+      modalHeader.textContent = `Entry for Day ${num}`; // Update the modal title
+      viewerContent.textContent = "Loading entry..."; // Show a loading state
+
+      fetch(`day${num}.txt`)
+        .then(r => {
+          if (!r.ok) {
+             throw new Error("File not found or network error");
+          }
+          return r.text();
         })
-        .catch(err => {
-            console.error("Error loading", file, err);
+        .then(text => {
+          viewerContent.textContent = text;
+          diaryModal.style.display = "block"; // Show the modal
+        })
+        .catch(() => {
+          viewerContent.textContent = `Error loading entry for Day ${num}. Please check if the file 'day${num}.txt' exists.`;
+          diaryModal.style.display = "block"; // Still show the modal with the error
         });
-});
+    }
 
-// Add entry to page + PDF download
-function addEntry(filename, text) {
-    const container = document.getElementById("content");
+    // Function to close the modal
+    function closeModal() {
+      diaryModal.style.display = "none";
+    }
 
-    const div = document.createElement("div");
-    div.className = "entry";
-
-    const title = `<h2>${filename.replace(".txt", "").toUpperCase()}</h2>`;
-
-    const body = `<pre style="white-space: pre-wrap; font-size: 16px;">${text}</pre>`;
-
-    const button = `<button class="download-btn" onclick="downloadPDF('${filename}', \`${text.replace(/`/g,"\\`")}\`)">Download PDF</button>`;
-
-    div.innerHTML = title + body + button;
-
-    container.appendChild(div);
-}
-
-// PDF Generation
-function downloadPDF(filename, content) {
-    const pdfWindow = window.open("", "_blank");
-    pdfWindow.document.write("<pre>" + content + "</pre>");
-    pdfWindow.print();
-}
-</script>
-
+    // Close the modal if the user clicks anywhere outside of it
+    window.onclick = function(event) {
+      if (event.target == diaryModal) {
+        closeModal();
+      }
+    }
+  </script>
 </body>
 </html>

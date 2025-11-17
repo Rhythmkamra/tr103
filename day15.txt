@@ -1,53 +1,13 @@
-Date: 25 June (Day 15)
 
-Subject: Duty Leave Module Implementation and Comprehensive Notification System
+Day 15: Duty Leave Module & Notifications (25 June)
 
-═══════════════════════════════════════════════════════════════════════════════
+I. Duty Leave Module Implementation
 
-I. DUTY LEAVE MODULE COMPLETION AND WORKFLOW IMPLEMENTATION
+Today I finished building the Duty Leave module for official activities like exams, sports, and conferences. The DutyLeave model supports multiple student participants, different duty types, start/end dates, supervising authority, and document uploads. The submission form lets users pick the duty type, select the authority, add participants, and upload supporting files. The workflow has clear states: pending teacher, teacher approved, pending HOD, HOD approved, and rejected. This keeps the process organized and easy to track.
 
-The development of the Duty Leave module proceeded to completion, implementing comprehensive functionality for management of official institutional duties requiring formal leave authorization. This specialized module addresses leave requests related to mandatory institutional obligations such as examination administration, sports competitions, and other approved duty assignments.
+II. Teacher-to-HOD Workflow
 
-The Duty Leave module implementation encompasses the following architectural components:
-
-   • Duty Leave Model Integration: The DutyLeave data model was fully implemented with the following specifications:
-     - Participant Association: Support for multiple student participants assigned to individual duty leave requests
-     - Duty Classification: Categorization of duty types (examination administration, sports event, academic conference, institutional representation, etc.)
-     - Duty Duration and Scheduling: Specification of duty commencement and termination dates with institutional calendar integration
-     - Supervising Authority: Designation of the responsible institutional authority (department, center, office) overseeing the duty assignment
-     - Duty Documentation: Storage of supporting documentation and duty authorization materials
-   
-   • Duty Leave Submission Interface: A specialized submission interface designed for duty leave requests including:
-     - Duty Classification Selection: Dropdown specification of duty type and institutional category
-     - Institutional Authority Specification: Selection of supervising department or institutional entity
-     - Duty Justification: Documentation of the institutional necessity for the duty assignment
-     - Participant Roster: Specification of all students assigned to the duty
-     - Supporting Documentation Upload: Attachment of institutional notices, schedules, or authorization documents
-   
-   • Workflow State Management: The DutyLeave module implements a complete workflow state machine including:
-     - PENDING_TEACHER: Initial state designating awaiting Teacher/Faculty approval
-     - TEACHER_APPROVED: State indicating Teacher review and approval
-     - PENDING_HOD: State indicating forwarding to Head of Department for secondary review
-     - HOD_APPROVED: Terminal approval state indicating full authorization
-     - REJECTED: Terminal state indicating denial of duty leave request
-
-This comprehensive Duty Leave implementation establishes dedicated functionality for institutional duty-based leave management.
-
-
-II. TEACHER-TO-HOD WORKFLOW SEGREGATION AND APPROVAL ROUTING
-
-The Duty Leave module implements a specialized hierarchical approval workflow distinct from Individual Leave procedures, ensuring appropriate oversight for duty-based leave requests through multi-level institutional review.
-
-The Teacher-to-HOD workflow segregation encompasses the following architectural specifications:
-
-   • Distinct Workflow Path: The Duty Leave module maintains completely segregated workflow procedures from Individual Leave, preventing inadvertent workflow mixing or status confusion:
-     - Separate Status Field: Duty Leave requests maintain independent status tracking with duty-specific states
-     - Distinct Approval Views: Specialized approval views designed specifically for duty leave requests
-     - Separate Notification Triggers: Dedicated notification mechanisms specific to duty leave workflows
-     - Independent Audit Trails: Separate audit logging and historical tracking for duty leave decisions
-   
-   • Teacher-Level Review: Initial duty leave approval authority is vested with Teacher/Faculty members:
-     - Request Visibility: Teachers receive visibility of duty leave requests from students under their mentorship or departmental purview
+The Duty Leave approval process is separate from individual leave. Requests go to teachers first, then to the HOD for final approval. Each step has its own status and notifications, with separate views and audit logs to avoid confusion. Teachers can see and review requests from their students, and the system keeps everything clear and well-documented.
      - Duty Validation: Teachers review duty legitimacy and institutional necessity
      - Approval Authority: Teachers grant or deny duty leave requests at initial review level
      - Teacher Comments: Optional comments or conditions may be attached to approval decisions
