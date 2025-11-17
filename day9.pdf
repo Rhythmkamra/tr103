@@ -1,0 +1,93 @@
+Date: 17 June (Day 9)
+
+Subject: Learning Management System Database Schema Design and Data Model Architecture
+
+═══════════════════════════════════════════════════════════════════════════════
+
+I. CORE IDENTITY DATA MODEL DEFINITION AND IMPLEMENTATION
+
+The development of the Learning Management System (LMS) data architecture commenced with the comprehensive design and implementation of foundational user identity models. These core identity models establish the organizational structure and relational framework upon which all subsequent LMS functionality depends.
+
+The core identity model architecture encompasses the following entity definitions:
+
+   • Student Model: A primary entity model representing enrolled student users within the Learning Management System. The Student model is implemented with the following characteristics:
+     - Direct linkage to the Django User model, establishing a one-to-one relationship between Django authentication entities and LMS student records
+     - Storage of student-specific attributes and organizational affiliations
+     - Integration with leave request workflows and educational tracking systems
+     - Connection to institutional student records and academic progression
+   
+   • Teacher Model: A primary entity model representing instructional and faculty staff within the Learning Management System. The Teacher model is implemented with the following characteristics:
+     - Direct linkage to the Django User model, establishing a one-to-one relationship between Django authentication entities and LMS teacher records
+     - Inclusion of role designation flags enabling dynamic role classification:
+       * Mentor Flag: Designating teachers responsible for student mentorship and individual leave request approval
+       * Head of Department (HOD) Flag: Designating administrative faculty with departmental oversight and hierarchical approval authority
+     - Support for multi-role assignment enabling teachers to hold both Mentor and HOD designations within different contexts
+   
+   • Society Model: An organizational entity model representing student societies, clubs, or organizational groups within the institutional framework. The Society model is implemented with the following characteristics:
+     - Representation of organizational entities for group-based activities and collective leave management
+     - Storage of society organizational structure and administrative delegation
+     - Association with group leave request workflows and collective activity governance
+     - Integration with society administrator authorization and management capabilities
+
+This comprehensive core identity model architecture establishes the foundational data structures required for user management, role-based access control, and organizational representation within the LMS platform.
+
+
+II. INDIVIDUAL LEAVE REQUEST DATA MODEL DESIGN
+
+The design of the Individual Leave request data model proceeded with comprehensive specification of data fields and attributes necessary for managing individual student leave requests throughout their approval lifecycle.
+
+The Individual Leave model architecture encompasses the following structural specifications:
+
+   • Student Reference: A foreign key field establishing a direct relationship between individual leave requests and specific student entities. This relationship enables:
+     - Association of leave requests with particular student records
+     - Tracking of leave history by individual students
+     - Integration with student academic records and attendance systems
+   
+   • Leave Reason Field: A text field designated for capturing the rationale, justification, or documented reason for the requested leave. This field enables:
+     - Clear communication of leave purposes to approval authorities
+     - Documentation of leave request circumstances and context
+     - Audit trail and record-keeping for leave administration
+   
+   • Date Specification Fields: Dedicated date fields capturing temporal parameters of the leave request:
+     - Leave Commencement Date: Specifying the date on which the requested leave begins
+     - Leave Termination Date: Specifying the final date of the requested leave period
+     - Automatic duration calculation enabling leave period quantification
+   
+   • Custom Status Field: A sophisticated status management field implementing a workflow state machine for tracking leave request progression through the approval process. The status field supports the following workflow states:
+     - PENDING_MENTOR: Initial state indicating the request awaits review and approval from the student's assigned mentor
+     - MENTOR_APPROVED: State indicating the mentor has reviewed and approved the leave request
+     - PENDING_HOD: State indicating the request has progressed to the department head for secondary review
+     - HOD_APPROVED: State indicating the department head has approved the leave request
+     - REJECTED: Terminal state indicating the request has been denied by an approval authority
+     - CANCELLED: Terminal state indicating the student has cancelled the leave request
+
+This comprehensive individual leave model design establishes the data structures necessary for managing individual leave requests and tracking their progression through multi-level approval workflows.
+
+
+III. GROUP LEAVE AND DUTY LEAVE MULTI-PARTICIPANT DATA MODELS
+
+The design of group-based leave request data models proceeded with comprehensive specification of data structures capable of managing leave requests involving multiple participants and supporting distinct organizational approval pathways.
+
+The group-based leave model architecture encompasses the following entity definitions:
+
+   • GroupLeave Model: A primary entity model designed for managing organizational group leave requests typically involving society-based or event-based collective activities. The GroupLeave model is structured with the following architectural specifications:
+     - Multi-Participant Support: Capability to associate multiple student participants with individual group leave requests
+     - Society Association: Direct linkage to specific Society entities enabling group leave organization and society administrator assignment
+     - Approval Path Specification: Support for society-administrator-centric approval workflows enabling direct approval by designated society administrators
+     - Auto-Approval Integration: Implementation of conditional auto-approval mechanisms for eligible requests
+   
+   • DutyLeave Model: A specialized entity model designed for managing institutional duty or mandatory activity leave requests. The DutyLeave model is structured with the following architectural specifications:
+     - Multi-Participant Accommodation: Capability to associate multiple student participants with individual duty leave requests
+     - Organizational Hierarchy Integration: Support for hierarchical approval workflows incorporating multiple administrative levels
+     - Teacher/HOD Approval Pathways: Distinct approval routing mechanisms directing requests to appropriate Teacher or Department Head review authorities
+     - Duty Documentation: Support for documentation of the institutional duty or mandatory activity motivating the leave request
+   
+   • Distinct Approval Path Architecture: The group-based leave models implement specialized approval workflow paths reflecting organizational structure and approval authority distribution:
+     - Society Admin Direct Approval Path: Society-based leave requests (GroupLeave) follow a direct approval path from society administrators, enabling streamlined approval for society-organized activities
+     - Teacher-to-HOD Hierarchical Approval Path: Duty-based leave requests (DutyLeave) follow a hierarchical approval workflow progressing from Teacher/Mentor approval to Head of Department secondary review, establishing multi-level oversight for institutional duty assignments
+
+This comprehensive group-based leave model architecture establishes the data structures necessary for managing collective leave requests with support for multiple participants, organizational societies, and distinct hierarchical approval workflows.
+
+═══════════════════════════════════════════════════════════════════════════════
+
+Status: Successfully completed comprehensive database schema design for Learning Management System for Day 9.

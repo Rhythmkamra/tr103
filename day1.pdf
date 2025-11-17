@@ -1,0 +1,23 @@
+Week 1 – Day 1: LDAP Fundamentals and Tool Analysis (5 June)
+
+I. Core LDAP Architecture Study
+
+Protocol Fundamentals: Studied the Lightweight Directory Access Protocol (LDAP) as a read-optimized, hierarchical directory service protocol.
+
+Directory Information Tree (DIT): Defined the DIT structure, recognizing it as the inverted tree hierarchy organizing all directory entries.
+
+Naming and Locators: Identified the Distinguished Name (DN) as the absolute, unique identifier for every entry within the DIT.
+
+Structural Components: Established the function of the Organizational Unit (OU) as the container object used for logical segmentation and grouping of users and resources.
+
+II. Application Rationale
+
+Unified Identity Management: Analyzed the strategic requirement for LDAP integration in a college environment to facilitate unified login and centralized user identity management.
+
+Service Consolidation: Understood that centralizing credentials simplifies access control and user lifecycle management across multiple campus systems (e.g., Wi-Fi, portals, email).
+
+III. Management Tool Analysis
+
+phpLDAPadmin: Reviewed as a low-level web interface providing direct, unabstracted access to LDAP attributes and schema manipulation; suitable for experienced administrators.
+
+LAM (LDAP Account Manager): Reviewed as an abstraction-layer management tool focused on user-friendly, form-based account provisioning, simplifying routine tasks for support staff.
