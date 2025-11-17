@@ -1,127 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Industrial Training Daily Reports</title>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
-    <style>
-        body {
-            font-family: "Segoe UI", Arial, sans-serif;
-            background: #f5f5f5;
-            margin: 0;
-            padding: 40px 0;
-        }
-        .container {
-            width: 60%;
-            margin: auto;
-            background: white;
-            padding: 30px 40px;
-            border-radius: 12px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.12);
-        }
-        h1, h2, h3 {
-            text-align: center;
-            margin: 6px 0;
-        }
-        h1 { font-size: 26px; font-weight: 700; }
-        h2 { font-size: 20px; font-weight: 600; color: #444; }
-        h3 { font-size: 16px; font-weight: 500; color: #555; }
-
-        a {
-            display: block;
-            padding: 10px 14px;
-            margin: 6px 0;
-            text-decoration: none;
-            background: #f0f0f0;
-            color: #333;
-            border-radius: 6px;
-            font-size: 15px;
-            transition: 0.2s;
-            cursor: pointer;
-        }
-        a:hover { background: #e0e0e0; }
-
-        .footer {
-            margin-top: 30px;
-            text-align: center;
-            font-size: 13px;
-            color: #555;
-        }
-    </style>
+<meta charset="UTF-8" />
+<title>Daily Diary Records</title>
+<style>
+    body {
+        font-family: "Times New Roman", serif;
+        margin: 40px;
+        line-height: 1.6;
+        background: #fafafa;
+    }
+    h1 {
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 40px;
+    }
+    .entry {
+        background: white;
+        border: 1px solid #ddd;
+        padding: 20px;
+        margin-bottom: 25px;
+        border-radius: 6px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+    .download-btn {
+        margin-top: 10px;
+        padding: 6px 12px;
+        border: 1px solid #333;
+        background: white;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+</style>
 </head>
 <body>
 
-<div class="container">
+<h1>GNDEC Training Diary – Daily Records</h1>
 
-    <h1>Guru Nanak Dev Engineering College</h1>
-    <h2>Industrial Training Daily Diary</h2>
-    <h3>Under the Guidance of Prof. Jagdeep Singh (Information Technology)</h3>
-    <h3>Student: Rhythm Kamra</h3>
-
-    <div class="list">
-
-        <!-- LINKS CALL JS FUNCTION -->
-        <a onclick="generatePDF('day1.txt', 'Day 1 Report')">Day 1 Report</a>
-        <a onclick="generatePDF('day2.txt', 'Day 2 Report')">Day 2 Report</a>
-        <a onclick="generatePDF('day3.txt', 'Day 3 Report')">Day 3 Report</a>
-        <a onclick="generatePDF('day4.txt', 'Day 4 Report')">Day 4 Report</a>
-        <a onclick="generatePDF('day5.txt', 'Day 5 Report')">Day 5 Report</a>
-        <a onclick="generatePDF('day6.txt', 'Day 6 Report')">Day 6 Report</a>
-        <a onclick="generatePDF('day7.txt', 'Day 7 Report')">Day 7 Report</a>
-        <a onclick="generatePDF('day8.txt', 'Day 8 Report')">Day 8 Report</a>
-        <a onclick="generatePDF('day9.txt', 'Day 9 Report')">Day 9 Report</a>
-        <a onclick="generatePDF('day10.txt', 'Day 10 Report')">Day 10 Report</a>
-        <a onclick="generatePDF('day11.txt', 'Day 11 Report')">Day 11 Report</a>
-        <a onclick="generatePDF('day12.txt', 'Day 12 Report')">Day 12 Report</a>
-        <a onclick="generatePDF('day13.txt', 'Day 13 Report')">Day 13 Report</a>
-        <a onclick="generatePDF('day14.txt', 'Day 14 Report')">Day 14 Report</a>
-        <a onclick="generatePDF('day15.txt', 'Day 15 Report')">Day 15 Report</a>
-        <a onclick="generatePDF('day16.txt', 'Day 16 Report')">Day 16 Report</a>
-        <a onclick="generatePDF('day17.txt', 'Day 17 Report')">Day 17 Report</a>
-        <a onclick="generatePDF('day18.txt', 'Day 18 Report')">Day 18 Report</a>
-        <a onclick="generatePDF('day19.txt', 'Day 19 Report')">Day 19 Report</a>
-        <a onclick="generatePDF('day20.txt', 'Day 20 Report')">Day 20 Report</a>
-        <a onclick="generatePDF('day21.txt', 'Day 21 Report')">Day 21 Report</a>
-        <a onclick="generatePDF('day22.txt', 'Day 22 Report')">Day 22 Report</a>
-        <a onclick="generatePDF('day23.txt', 'Day 23 Report')">Day 23 Report</a>
-
-    </div>
-
-    <div class="footer">
-        © 2025 | Industrial Training Documentation
-    </div>
-
-</div>
+<div id="content"></div>
 
 <script>
-async function generatePDF(txtFile, title) {
-    try {
-        const response = await fetch(txtFile);
-        const text = await response.text();
+// List all txt files
+const files = [
+    "day1.txt","day2.txt","day3.txt","day4.txt","day5.txt",
+    "day6.txt","day7.txt","day8.txt","day9.txt","day10.txt",
+    "day11.txt","day12.txt","day13.txt","day14.txt","day15.txt",
+    "day16.txt","day17.txt","day18.txt","day19.txt","day20.txt",
+    "day21.txt","day22.txt","day23.txt"
+];
 
-        const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF();
+// Fetch each file
+files.forEach(file => {
+    fetch(file)
+        .then(res => res.text())
+        .then(text => {
+            addEntry(file, text);
+        })
+        .catch(err => {
+            console.error("Error loading", file, err);
+        });
+});
 
-        pdf.setFont("Helvetica", "normal");
-        pdf.setFontSize(14);
+// Add entry to page + PDF download
+function addEntry(filename, text) {
+    const container = document.getElementById("content");
 
-        let lines = pdf.splitTextToSize(text, 180);
-        pdf.text(lines, 15, 20);
+    const div = document.createElement("div");
+    div.className = "entry";
 
-        const pdfName = txtFile.replace(".txt", ".pdf");
+    const title = `<h2>${filename.replace(".txt", "").toUpperCase()}</h2>`;
 
-        // Download PDF
-        pdf.save(pdfName);
+    const body = `<pre style="white-space: pre-wrap; font-size: 16px;">${text}</pre>`;
 
-        // Also open in new tab
-        const blob = pdf.output("bloburl");
-        window.open(blob, "_blank");
+    const button = `<button class="download-btn" onclick="downloadPDF('${filename}', \`${text.replace(/`/g,"\\`")}\`)">Download PDF</button>`;
 
-    } catch (err) {
-        alert("Error loading file: " + txtFile);
-    }
+    div.innerHTML = title + body + button;
+
+    container.appendChild(div);
+}
+
+// PDF Generation
+function downloadPDF(filename, content) {
+    const pdfWindow = window.open("", "_blank");
+    pdfWindow.document.write("<pre>" + content + "</pre>");
+    pdfWindow.print();
 }
 </script>
 
