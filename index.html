@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Industrial Training Daily Reports</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
     <style>
         body {
             font-family: "Segoe UI", Arial, sans-serif;
@@ -22,23 +25,10 @@
             text-align: center;
             margin: 6px 0;
         }
-        h1 {
-            font-size: 26px;
-            font-weight: 700;
-        }
-        h2 {
-            font-size: 20px;
-            font-weight: 600;
-            color: #444;
-        }
-        h3 {
-            font-size: 16px;
-            font-weight: 500;
-            color: #555;
-        }
-        .list {
-            margin-top: 30px;
-        }
+        h1 { font-size: 26px; font-weight: 700; }
+        h2 { font-size: 20px; font-weight: 600; color: #444; }
+        h3 { font-size: 16px; font-weight: 500; color: #555; }
+
         a {
             display: block;
             padding: 10px 14px;
@@ -49,10 +39,10 @@
             border-radius: 6px;
             font-size: 15px;
             transition: 0.2s;
+            cursor: pointer;
         }
-        a:hover {
-            background: #e0e0e0;
-        }
+        a:hover { background: #e0e0e0; }
+
         .footer {
             margin-top: 30px;
             text-align: center;
@@ -65,36 +55,38 @@
 
 <div class="container">
 
-    <!-- Formal Heading Section -->
     <h1>Guru Nanak Dev Engineering College</h1>
     <h2>Industrial Training Daily Diary</h2>
     <h3>Under the Guidance of Prof. Jagdeep Singh (Information Technology)</h3>
     <h3>Student: Rhythm Kamra</h3>
 
     <div class="list">
-        <a href="day1.pdf">Day 1 Report</a>
-        <a href="day2.pdf">Day 2 Report</a>
-        <a href="day3.pdf">Day 3 Report</a>
-        <a href="day4.pdf">Day 4 Report</a>
-        <a href="day5.pdf">Day 5 Report</a>
-        <a href="day6.pdf">Day 6 Report</a>
-        <a href="day7.pdf">Day 7 Report</a>
-        <a href="day8.pdf">Day 8 Report</a>
-        <a href="day9.pdf">Day 9 Report</a>
-        <a href="day10.pdf">Day 10 Report</a>
-        <a href="day11.pdf">Day 11 Report</a>
-        <a href="day12.pdf">Day 12 Report</a>
-        <a href="day13.pdf">Day 13 Report</a>
-        <a href="day14.pdf">Day 14 Report</a>
-        <a href="day15.pdf">Day 15 Report</a>
-        <a href="day16.pdf">Day 16 Report</a>
-        <a href="day17.pdf">Day 17 Report</a>
-        <a href="day18.pdf">Day 18 Report</a>
-        <a href="day19.pdf">Day 19 Report</a>
-        <a href="day20.pdf">Day 20 Report</a>
-        <a href="day21.pdf">Day 21 Report</a>
-        <a href="day22.pdf">Day 22 Report</a>
-        <a href="day23.pdf">Day 23 Report</a>
+
+        <!-- LINKS CALL JS FUNCTION -->
+        <a onclick="generatePDF('day1.txt', 'Day 1 Report')">Day 1 Report</a>
+        <a onclick="generatePDF('day2.txt', 'Day 2 Report')">Day 2 Report</a>
+        <a onclick="generatePDF('day3.txt', 'Day 3 Report')">Day 3 Report</a>
+        <a onclick="generatePDF('day4.txt', 'Day 4 Report')">Day 4 Report</a>
+        <a onclick="generatePDF('day5.txt', 'Day 5 Report')">Day 5 Report</a>
+        <a onclick="generatePDF('day6.txt', 'Day 6 Report')">Day 6 Report</a>
+        <a onclick="generatePDF('day7.txt', 'Day 7 Report')">Day 7 Report</a>
+        <a onclick="generatePDF('day8.txt', 'Day 8 Report')">Day 8 Report</a>
+        <a onclick="generatePDF('day9.txt', 'Day 9 Report')">Day 9 Report</a>
+        <a onclick="generatePDF('day10.txt', 'Day 10 Report')">Day 10 Report</a>
+        <a onclick="generatePDF('day11.txt', 'Day 11 Report')">Day 11 Report</a>
+        <a onclick="generatePDF('day12.txt', 'Day 12 Report')">Day 12 Report</a>
+        <a onclick="generatePDF('day13.txt', 'Day 13 Report')">Day 13 Report</a>
+        <a onclick="generatePDF('day14.txt', 'Day 14 Report')">Day 14 Report</a>
+        <a onclick="generatePDF('day15.txt', 'Day 15 Report')">Day 15 Report</a>
+        <a onclick="generatePDF('day16.txt', 'Day 16 Report')">Day 16 Report</a>
+        <a onclick="generatePDF('day17.txt', 'Day 17 Report')">Day 17 Report</a>
+        <a onclick="generatePDF('day18.txt', 'Day 18 Report')">Day 18 Report</a>
+        <a onclick="generatePDF('day19.txt', 'Day 19 Report')">Day 19 Report</a>
+        <a onclick="generatePDF('day20.txt', 'Day 20 Report')">Day 20 Report</a>
+        <a onclick="generatePDF('day21.txt', 'Day 21 Report')">Day 21 Report</a>
+        <a onclick="generatePDF('day22.txt', 'Day 22 Report')">Day 22 Report</a>
+        <a onclick="generatePDF('day23.txt', 'Day 23 Report')">Day 23 Report</a>
+
     </div>
 
     <div class="footer">
@@ -102,6 +94,36 @@
     </div>
 
 </div>
+
+<script>
+async function generatePDF(txtFile, title) {
+    try {
+        const response = await fetch(txtFile);
+        const text = await response.text();
+
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF();
+
+        pdf.setFont("Helvetica", "normal");
+        pdf.setFontSize(14);
+
+        let lines = pdf.splitTextToSize(text, 180);
+        pdf.text(lines, 15, 20);
+
+        const pdfName = txtFile.replace(".txt", ".pdf");
+
+        // Download PDF
+        pdf.save(pdfName);
+
+        // Also open in new tab
+        const blob = pdf.output("bloburl");
+        window.open(blob, "_blank");
+
+    } catch (err) {
+        alert("Error loading file: " + txtFile);
+    }
+}
+</script>
 
 </body>
 </html>
